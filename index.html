@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Happy Valentine's Day!</title>
+    <style>
+      /* Global Styles */
+      body {
+        background-color: #ffe6e6; /* soft pink */
+        margin: 0;
+        overflow: hidden; /* hide scrollbars */
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        position: relative;
+      }
+      /* Container for the cards (keeps them above the falling hearts) */
+      .container {
+        position: relative;
+        text-align: center;
+        z-index: 10;
+      }
+      /* Main Valentine Message Card */
+      .card {
+        background-color: white;
+        border: 2px solid #ffcccc;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      .card h1 {
+        color: #d6336c;
+        margin-top: 0;
+      }
+      /* Poem Card (click to reveal the poem) */
+      .poem-card {
+        width: 400px; /* Increased width */
+        margin: 0 auto 20px;
+        border: 2px solid #ffb6c1;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        overflow: hidden;
+        max-height: 80px; /* Initially shows only the cover */
+        transition: max-height 0.5s ease;
+        background: linear-gradient(135deg, #fff0f5, #ffe6e6);
+      }
+      .poem-card.open {
+        max-height: 700px; /* Increased max-height for a longer poem */
+      }
+      .card-cover {
+        background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+        padding: 15px;
+        border-bottom: 1px dashed #ffb6c1;
+      }
+      .card-cover h2 {
+        margin: 0;
+        color: #d6336c;
+        font-size: 1.4em;
+        font-family: "Comic Sans MS", cursive, sans-serif;
+      }
+      .card-content {
+        padding: 15px;
+        text-align: left;
+        font-size: 1em;
+        line-height: 1.5;
+        display: none;
+        color: #333;
+      }
+      .poem-card.open .card-content {
+        display: block;
+      }
+
+      /* Cute Gif Box for Kuromi */
+      .gif-box {
+        width: 250px;
+        margin: 20px auto;
+        border: 3px dashed #ffb6c1;
+        border-radius: 15px;
+        padding: 10px;
+        background: linear-gradient(135deg, #fff0f5, #ffe6e6);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .gif-box img {
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      /* --- Heart Styles --- */
+      /* The wrapper will be animated to fall vertically */
+      .heart-wrapper {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        top: -30px; /* start above the viewport */
+        animation: fall ease-in-out infinite;
+        opacity: 0.8;
+      }
+      /* The heart shape itself */
+      .heart {
+        position: relative;
+        width: 30px;
+        height: 30px;
+        background: red;
+        transform: rotate(-45deg);
+      }
+      /* Create the two circular lobes of the heart */
+      .heart::before,
+      .heart::after {
+        content: "";
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: red;
+        border-radius: 50%;
+      }
+      .heart::before {
+        top: -15px;
+        left: 0;
+      }
+      .heart::after {
+        left: 15px;
+        top: 0;
+      }
+      /* Falling animation: a smooth, vertical fall */
+      @keyframes fall {
+        0% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(110vh);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Main Valentine Card -->
+      <div class="card">
+        <h1>Happy Valentine's Day, Kiyomi!</h1>
+        <p>
+          Even though we’re miles apart, my heart is always with you.<br />
+          I'll always love you, my sweet Princess.
+        </p>
+      </div>
+      <!-- Interactive Poem Card -->
+      <div class="poem-card" onclick="togglePoem()">
+        <div class="card-cover">
+          <h2>Open Your Valentine's Card</h2>
+        </div>
+        <div class="card-content">
+          <p>
+            In the hush of winter’s first snowfall and the gentle rhythm of
+            falling rain,<br />
+            I think of you, Kiyomi—radiant in your favorite shade of black,<br />
+            A vision whose beauty outshines every doubt you hold,<br />
+            A soul so talented and brave, even when fear whispers otherwise.
+          </p>
+          <p>
+            In the quiet moments between our shared dreams,<br />
+            I see the strength in your delicate smile and the sparkle in your
+            eyes,<br />
+            A promise of a love that grows deeper with every passing season—<br />
+            Each snowflake and raindrop a gentle reminder of the magic we share.
+          </p>
+          <p>
+            Soon, the distance will melt away,<br />
+            And I will hold you close, kiss away the miles,<br />
+            Feel the steady beat of your heart against mine,<br />
+            And tell you, in that quiet, tender moment,<br />
+            How profoundly I love you.
+          </p>
+        </div>
+      </div>
+      <!-- Kuromi Gif Box -->
+      <div class="gif-box">
+        <img
+          src="/dglrk0h-7ba9760c-7366-4e98-b11c-9f31eeb56ace.gif"
+          alt="Kuromi Jumping"
+        />
+      </div>
+    </div>
+
+    <script>
+      // Create a falling heart element using a wrapper and a child heart
+      function createHeart() {
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("heart-wrapper");
+        wrapper.style.left = Math.random() * 100 + "vw";
+        const duration = 8 + Math.random() * 4;
+        wrapper.style.animationDuration = duration + "s";
+        const delay = Math.random() * 2;
+        wrapper.style.animationDelay = delay + "s";
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        wrapper.appendChild(heart);
+        document.body.appendChild(wrapper);
+        setTimeout(() => {
+          wrapper.remove();
+        }, (duration + delay) * 1000);
+      }
+      setInterval(createHeart, 500);
+
+      // Toggle the poem card open/closed when clicked
+      function togglePoem() {
+        document.querySelector(".poem-card").classList.toggle("open");
+      }
+    </script>
+  </body>
+</html>
